@@ -79,11 +79,7 @@ int main(int argc, char ** argv)
 
 	myInit();									// setting up
 
-	//glutMouseFunc(myMouseCallback);
-
 	glutDisplayFunc(myDisplayCallback);		// register a callback
-
-	//glutMotionFunc(myMouseEvent);
 
 	glutMainLoop();							// get into an infinite loop
 
