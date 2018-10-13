@@ -15,3 +15,6 @@ We are implementing
     Pattern filled polygons
     Pixel maps
 all using GLUT // OpenGL.
+
+CPP file can be compliled by command line using g++, or by adding the file to 
+a blank Visual Studio project. The latter is what we are using for this class. 
