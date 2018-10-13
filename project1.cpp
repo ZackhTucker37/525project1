@@ -26,29 +26,67 @@
 
 using namespace std;
 
-
+/*========================================
+	Function drawAxes() 
+	uses a line stipple	to create 4 individual
+	segments of the total viewing screen. 
+	No arguments are given.
+========================================*/
 void drawAxes()
 {
-	glColor3f(1, 1, 1);
-	char y;
-	y = 'Y';
-	glRasterPos2f(-3, 155);
-	glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, int(y));
-
-	char x;
-	x = 'X';
-	glRasterPos2f(155, -3);
-	glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, int(x));
-
-	glPointSize(1);		// change point size back to 1
-
-	glBegin(GL_POINTS);	// use points to form X-/Y-axes
-	glColor3f(0, 0, 0);			 // change drawing color to black
-	for (int x = -150; x <= 150; x++) // draw X-axis
-		glVertex2i(x, 0);
-	for (int y = -150; y <= 150; y++) // draw Y-axis
-		glVertex2i(0, y);
+	glEnable(GL_LINE_STIPPLE);
+	glLineStipple(1, 0x0C0F);
+	glPointSize(5);
+	glBegin(GL_LINES);	// use the default point size: 1
+	glColor3f(1, 0, 1);			// specify drawing color: red 
+	glVertex2f(0, -680);			// specify a point location
+	glVertex2f(0, 680);		// 1 line
 	glEnd();
+
+	glBegin(GL_LINES);
+	glVertex2f(-680, 0);
+	glVertex2f(680, 0);
+	glEnd();
+
+	glDisable(GL_LINE_STIPPLE);
+}
+
+/*========================================
+	Function drawText()
+	uses a line stipple	to create 4 individual
+	segments of the total viewing screen.
+	No arguments are given.
+========================================*/
+void drawText()
+{
+	glColor3f(0, 0, 0);
+	string x;
+	x = "Pattern filled Polygon";
+	glRasterPos2f(-650, 650);
+	for (int i = 0; i < x.length(); ++i) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, int(x[i]));
+	}
+
+	string x2;
+	x2 = "Circle";
+	glRasterPos2f(20, 650);
+	for (int i = 0; i < x2.length(); ++i) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, int(x2[i]));
+	}
+
+	string x3;
+	x3 = "Bitmap";
+	glRasterPos2f(-650, -40);
+	for (int i = 0; i < x3.length(); ++i) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, int(x3[i]));
+	}
+
+	string x4;
+	x4 = "Pixel Map";
+	glRasterPos2f(20, -40);
+	for (int i = 0; i < x4.length(); ++i) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, int(x4[i]));
+	}
 }
 
 //***********************************************************************************
@@ -58,6 +96,8 @@ void myDisplayCallback()
 
 	drawAxes();
 
+	drawText();
+
 	glFlush(); // flush out the buffer contents
 }
 
@@ -65,17 +105,17 @@ void myDisplayCallback()
 //***********************************************************************************
 void myInit()
 {
-	glClearColor(0.8, 0.8, 0.8, 0);			// specify a background color: white 
-	gluOrtho2D(-200, 200, -200, 200);  // specify a viewing area
+	glClearColor(0.8, 0.8, 0.8, 0);			// specify a background color: grey
+	gluOrtho2D(-700, 700, -700, 700);  // specify a viewing area
 }
 
 //***********************************************************************************
 int main(int argc, char ** argv)
 {//glutInit(& argc, argv);                  // optional in our environment
 
-	glutInitWindowSize(400, 400);				// specify a window size
+	glutInitWindowSize(700, 700);				// specify a window size
 	glutInitWindowPosition(100, 0);			// specify a window position
-	glutCreateWindow("Mouse-click drawing");	// create a titled window
+	glutCreateWindow("Project 1");	// create a titled window
 
 	myInit();									// setting up
 
