@@ -18,3 +18,6 @@ all using GLUT // OpenGL.
 
 CPP file can be compliled by command line using g++, or by adding the file to 
 a blank Visual Studio project. The latter is what we are using for this class. 
+
+Might have to make a change in VS to compile:
+Configuration Properties>>C/C++>>Preporocessor>>Preprocessor Definitions>> _CRT_SECURE_NO_WARNINGS
