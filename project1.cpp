@@ -2,7 +2,13 @@
  PROGRAMMER:			Zackh Tucker // Josiah McGurty
  COURSE:				CSC 525/625
  MODIFIED BY:			Zackh Tucker <tucker117> // Josiah McGurty <mcgurty1337>
- LAST MODIFIED DATE:	10.13.2018
+ ELECTRONIC FILE LOCATIONS:	\\trace\Class\CSC-525-625\001\tucker117\projects\project1\
+ 				\\trace\Class\CSC-525-625\001\McGurty1337\projects\project1\
+ CONTRIBUTION BREAKDOWN:	Zackh: 1. Line Segments, 2. Pattern Filled polygons, 6. Text and Documentation.
+ 				Total contribution: 50%
+				Josiah: 3. Circles, 4. Bitmap, 6. Pixel map and supporting file creation.
+				Total contribution: 50%
+ LAST MODIFIED DATE:		10.15.2018
  DESCRIPTION:			Lab project 1, culminated work from throughout the semester, working with
 							1. Line Segments
 							2. Pattern Filled polygons
@@ -14,7 +20,11 @@
  FILES:					project1.cpp, (labProject.sln, ...)
  IDE/COMPILER:			MicroSoft Visual Studio 2017
  INSTRUCTION FOR COMPILATION AND EXECUTION:
-	1.		Double click on labProject.sln	to OPEN the project
+ 	0.		Copy file 'Mandelbrot.ppm' to C:\TEMP\Mandelbrot.ppm.
+	1.		Double click on projProject.sln	to OPEN the project
+	2.		a. In Solution Explorer, right-click 'projProject' and select Properties.
+			b. Select Preprocessor, Edit Preprocessor Definitions to include '_CRT_SECURE_NO_WARNINGS'.
+			c. Click OK, click OK.
 	2.		Press Ctrl+F7					to COMPILE
 	3.		Press Ctrl+F5					to EXECUTE
 ==================================================================================================*/
