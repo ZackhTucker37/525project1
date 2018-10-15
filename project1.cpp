@@ -24,10 +24,13 @@
 #include <GL/glut.h>				// include GLUT library
 #include <math.h>
 #include <string>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
-
-char * memblock;
+int n;
+int m;
+GLuint *image;
 
 GLubyte pattern4Polygon[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -302,34 +305,26 @@ void drawBitmap() {
 }
 
 /* Function drawPixelmap()
-Draws a Missouri State logo in the bottom-left
-region of the screen utilizing a bitmap stored in
-an array. Rendered in maroon. */
+Draws a Mandelbrot set (with primary colors) loaded from a pixel map stored in a file.
+*/
 void drawPixelmap() {
-	glRasterPos2i(233, -350);
-	glDrawPixels(350, 233, GL_RGB, GL_FLOAT, memblock);
+  printf("pixel map\n");
+	glRasterPos2i(116, -700);
+	glDrawPixels(n, m, GL_RGB, GL_UNSIGNED_INT, image);
 }
 
 //***********************************************************************************
 void myDisplayCallback()
 {
 	glClear(GL_COLOR_BUFFER_BIT);	// draw the background
-
 	drawAxes();
-
-	drawText();
-
 	drawPolygon();
-
 	drawCircle();
-
 	drawBitmap();
-
-	//drawPixelmap();
-
+	drawPixelmap();
+	drawText();
 	glFlush(); // flush out the buffer contents
 }
-
 
 //***********************************************************************************
 void myInit()
@@ -341,32 +336,53 @@ void myInit()
 //***********************************************************************************
 int main(int argc, char ** argv)
 {
-	//string Mandelbrot = "C:\\TEMP\\Mandelbrot.jpg";
-	string Mandelbrot = "//home//owner//Desktop//Mandelbrot.jpg";
-	streampos size;
-	ifstream file(Mandelbrot, ios::in | ios::binary | ios::ate);
-	if (file.is_open()) {
-		size = file.tellg();
-		memblock = new char[size];
-		file.seekg(0, ios::beg);
-		file.read(memblock, size);
-		file.close();
-		cout << "The Mandelbrot has been loaded into memory.";
-	} else {
-		cout << "Unable to open file, please check: " << Mandelbrot <<
-		" and try again.";
-		exit(0);
-	}
-	glutInit(& argc, argv);                  // optional in some environments
+	FILE *fd;
+	int k, nm;
+	char c;
+	int i;
+	char b[70];
+	float s;
+	int red, green, blue;
+	//fd = fopen("/home/owner/Desktop/Mandelbrot.ppm", "r");
+	fd = fopen("C:/TEMP/Mandelbrot.ppm", "r");
+  fscanf(fd, "%[^\n]", b);
+  if(b[0] != 'P'|| b[1] != '3') {
+    printf("%s is not a PPM file!\n", b);
+    exit(0);
+  }
+  printf("%s is a PPM file\n", b);
+  fscanf(fd, "%c", &c);
+  while(c == '#') {
+    fscanf(fd, "%[^\n]", b);
+    printf("%s\n", b);
+    fscanf(fd, "%c", &c);
+  }
+  ungetc(c,fd);
+  fscanf(fd, "%d %d %d", &n, &m, &k);
+
+  printf("%d rows %d columns max value = %d\n", n, m, k);
+  nm = n*m;
+  image = (GLuint *)malloc(3*sizeof(GLuint)*nm);
+  s = 255./k;
+  for(i = 0; i < nm; i++) {
+    fscanf(fd, "%d %d %d", &red, &green, &blue);
+    image[3*nm - 3*i - 3] = red;
+    image[3*nm - 3*i - 2] = green;
+    image[3*nm - 3*i - 1] = blue;
+  }
+  printf("%s\n", b);
+  printf("read image\n");
+	glutInit(& argc, argv); // optional in some environments
+  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(700, 700);				// specify a window size
 	glutInitWindowPosition(100, 0);			// specify a window position
-	glutCreateWindow("Project 1");	// create a titled window
-
+	glutCreateWindow("Project One");	// create a titled window
 	myInit();									// setting up
-
 	glutDisplayFunc(myDisplayCallback);		// register a callback
-
+  glPixelTransferf(GL_RED_SCALE, s);
+  glPixelTransferf(GL_GREEN_SCALE, s);
+  glPixelTransferf(GL_BLUE_SCALE, s);
+  glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_TRUE);
 	glutMainLoop();							// get into an infinite loop
-
 	return 0;
 }
